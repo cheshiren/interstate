@@ -5,8 +5,6 @@ import '../init.dart';
 import '../widgets/empty_scroll_behavior.dart';
 
 class LogView extends StatefulWidget {
-  Function scrollTFC;
-  LogView(this.scrollTFC);
 
   @override
   _LogViewState createState() => _LogViewState();

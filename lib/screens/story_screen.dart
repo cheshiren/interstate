@@ -35,7 +35,9 @@ class _StoryScreenState extends State<StoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+    final _mediaQuery = MediaQuery.of(context);
+    bool _isLargeScreen = _mediaQuery.size.width > 600;
+
     Widget floatingButtonType() {
       GameScene _toBeScene;
       ThemeData _toBeThemeData;
@@ -51,19 +53,21 @@ class _StoryScreenState extends State<StoryScreen> {
 
       if (!transition) {
         if (currentScene.type != TypeOfScene.cutscene) {
-          return FloatingActionButton(
-            child: Icon(
-              Icons.keyboard_arrow_up,
-            ),
-            onPressed: () => showModalBottomSheet(
-              context: context,
-              backgroundColor: currentThemeData.scaffoldBackgroundColor,
-              builder: (ctx) => Theme(
-                data: currentThemeData,
-                child: ButtonColumn(_addTextSpan),
-              ),
-            ),
-          );
+          return _isLargeScreen
+              ? ButtonColumn(_addTextSpan, _isLargeScreen,)
+              : FloatingActionButton(
+                  child: Icon(
+                    Icons.keyboard_arrow_up,
+                  ),
+                  onPressed: () => showModalBottomSheet(
+                    context: context,
+                    backgroundColor: currentThemeData.scaffoldBackgroundColor,
+                    builder: (ctx) => Theme(
+                      data: currentThemeData,
+                      child: ButtonColumn(_addTextSpan, _isLargeScreen,),
+                    ),
+                  ),
+                );
         } else {
           return FloatingActionButton(
             child: Text(
@@ -118,26 +122,17 @@ class _StoryScreenState extends State<StoryScreen> {
       }
     }
 
-    void scrollTheFuckingController(_fController, _fLength) {
-      Future.delayed(Duration(milliseconds: 100), () {
-        _fController.scrollTo(
-          index: _fLength,
-          duration: Duration(milliseconds: 500),
-        );
-      });
-    }
-
     return Theme(
       data: currentThemeData,
       child: Scaffold(
         body: Center(
           child: Container(
-            height: mediaQuery.size.height,
+            height: _mediaQuery.size.height,
             constraints: BoxConstraints(
               maxWidth: 800,
             ),
             padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 40),
-            child: LogView(scrollTheFuckingController),
+            child: LogView(),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -8,8 +8,9 @@ import '../story/objects.dart';
 
 class ButtonColumn extends StatefulWidget {
   final Function newTextSpanFunc;
+  final bool isLargeScreen;
 
-  ButtonColumn(this.newTextSpanFunc);
+  ButtonColumn(this.newTextSpanFunc, this.isLargeScreen);
 
   @override
   _ButtonColumnState createState() => _ButtonColumnState();
@@ -39,11 +40,17 @@ class _ButtonColumnState extends State<ButtonColumn> {
     _randomResult = eventsDaemon();
     logLength = log.length;
     widget.newTextSpanFunc(logLabelResult, textResult, _randomResult);
-    Navigator.of(context).pop();
+
+    // убираем ModalBottomSheet, если оно есть (для экранов с шириной < 600px)
+    if (!widget.isLargeScreen) {
+      Navigator.of(context).pop();
+    }
+
     Future.delayed(Duration(milliseconds: 100), () {
       // scrollController.animateTo(scrollController.position.maxScrollExtent,
       //     curve: Curves.linear, duration: Duration(milliseconds: 500));
-      itemScrollController.scrollTo(index: logLength, duration: Duration(milliseconds: 500));
+      itemScrollController.scrollTo(
+          index: logLength, duration: Duration(milliseconds: 500));
     });
   }
 
@@ -77,8 +84,7 @@ class _ButtonColumnState extends State<ButtonColumn> {
                       // textColor: objData == currentObject
                       //     ? Colors.white
                       //     : Theme.of(context).textTheme.bodyText1.color,
-                      textColor:
-                              Theme.of(context).textTheme.bodyText1.color,
+                      textColor: Theme.of(context).textTheme.bodyText1.color,
                       color: objData == currentObject
                           ? Theme.of(context).accentColor
                           : Colors.white,
