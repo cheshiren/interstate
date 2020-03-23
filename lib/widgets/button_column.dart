@@ -56,6 +56,8 @@ class _ButtonColumnState extends State<ButtonColumn> {
 
   @override
   Widget build(BuildContext context) {
+    numberOfObjButtons = 0;
+    numberOfActButtons = 0;
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       constraints: BoxConstraints(
@@ -80,6 +82,7 @@ class _ButtonColumnState extends State<ButtonColumn> {
                   .map(
                 (objData) {
                   if (!objData.hidden) {
+                    numberOfObjButtons++;
                     return RaisedButton(
                       // textColor: objData == currentObject
                       //     ? Colors.white
@@ -124,6 +127,7 @@ class _ButtonColumnState extends State<ButtonColumn> {
                         }
                       }
                       if (pass || perpetual) {
+                        numberOfActButtons++;
                         return RaisedButton(
                           textColor:
                               Theme.of(context).textTheme.bodyText1.color,

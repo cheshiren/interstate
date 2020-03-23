@@ -20,6 +20,8 @@ Map<String, List<dynamic>> events = {
   'objectEvents': [],
 };
 List<dynamic> eventsToRemove = [];
+int numberOfObjButtons = 0;
+int numberOfActButtons = 0;
 
 TextTheme customTextTheme = ThemeData.light().textTheme.copyWith(
       bodyText1: TextStyle(

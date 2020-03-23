@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
 
@@ -50,11 +51,13 @@ class _StoryScreenState extends State<StoryScreen> {
       }
 
       currentThemeData = currentScene.themeData;
-
       if (!transition) {
         if (currentScene.type != TypeOfScene.cutscene) {
           return _isLargeScreen
-              ? ButtonColumn(_addTextSpan, _isLargeScreen,)
+              ? ButtonColumn(
+                  _addTextSpan,
+                  _isLargeScreen,
+                )
               : FloatingActionButton(
                   child: Icon(
                     Icons.keyboard_arrow_up,
@@ -64,7 +67,10 @@ class _StoryScreenState extends State<StoryScreen> {
                     backgroundColor: currentThemeData.scaffoldBackgroundColor,
                     builder: (ctx) => Theme(
                       data: currentThemeData,
-                      child: ButtonColumn(_addTextSpan, _isLargeScreen,),
+                      child: ButtonColumn(
+                        _addTextSpan,
+                        _isLargeScreen,
+                      ),
                     ),
                   ),
                 );
@@ -121,7 +127,9 @@ class _StoryScreenState extends State<StoryScreen> {
         );
       }
     }
-
+    print('$numberOfObjButtons + $numberOfActButtons');
+    var _nb = max(numberOfObjButtons, numberOfActButtons);
+    var _pad = _nb.toDouble() * 36 + (_nb - 1) * 2 + 20;
     return Theme(
       data: currentThemeData,
       child: Scaffold(
@@ -131,7 +139,7 @@ class _StoryScreenState extends State<StoryScreen> {
             constraints: BoxConstraints(
               maxWidth: 800,
             ),
-            padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 40),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: (_pad + 40)),
             child: LogView(),
           ),
         ),
