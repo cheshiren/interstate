@@ -5,7 +5,7 @@ import './models/game_scene.dart';
 import './models/game_object.dart';
 import './story/scenes.dart';
 
-GameScene currentScene = locationInsideTA;
+GameScene currentScene = sceneGasStation;
 GameObject currentObject = GameObject();
 ScrollController scrollController = ScrollController();
 ItemScrollController itemScrollController = ItemScrollController();

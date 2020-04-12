@@ -41,6 +41,9 @@ GameObject ta = GameObject(
           seat.hidden = false;
         }
       },
+      'flags': () {
+        return (currentScene.id != 'gas1');
+      },
     },
     {
       'label': 'Остановить',
@@ -159,6 +162,31 @@ GameObject ta = GameObject(
         return (ta.states['drive'] == true && currentScene.id == 'insideTA');
       },
     },
+    {
+      'label': 'Ехать на заправку',
+      'logLabel': 'Ехать на заправку',
+      'actsBefore': () {
+        transition = true;
+        currentScene.nextScene = sceneStub;
+      },
+      'text': () {
+        if (gasstation.states['seenCosts'] &&
+            gasstation.states['seenPumps'] &&
+            gasstation.states['seenBuilding']) {
+          return 'Похоже, что автозаправка заброшена и нет никаких следов, чтобы здесь кто-то побывал за последние месяцы. Я, удовлетворённый, утапливаю педаль газа и направляю Транс-Эм ко въезду.';
+        } else if (gasstation.states['seenCosts'] ||
+            gasstation.states['seenPumps'] ||
+            gasstation.states['seenBuilding']) {
+          return 'Решив, что видел достаточно, я утапливаю педаль газа и направляю Транс-Эм ко въезду.';
+        } else {
+          return 'Впрочем, что может быть опасного на заброшенной автозаправке посреди пустыни? Я отгоняю параноидальные мысли и утапливаю педаль газа, направляя Транс-Эм ко въезду.';
+        }
+      },
+      'acts': () {},
+      'flags': () {
+        return (currentScene.id == 'gas1');
+      },
+    },
   ],
   scenes: [
     'road1',
@@ -167,6 +195,7 @@ GameObject ta = GameObject(
     'behindTA',
     'besideTA2',
     'insideTA',
+    'gas1',
   ],
 );
 
@@ -333,7 +362,7 @@ GameObject urn = GameObject(
         transition = true;
       },
       'text':
-          'Не глядя, я в тысячный раз провожу пальцами по гладкой пластинке с символами.\n\nКим…',
+          'Не глядя, я в тысячный раз провожу пальцами по гладкой пластинке с символами.\n\nКим.\n\n«Потерпи, дружище, осталось уже недалеко — два дня от силы. Я своих обещаний не нарушаю, ты же знаешь».',
       'acts': () {},
       'flags': () => urn.states['seen'] == true,
     },
@@ -405,6 +434,7 @@ GameObject bottles = GameObject(
       'acts': () {},
     },
   ],
+  scenes: ['behindTA', 'besideTA', 'desert', 'besideTA2', 'insideTA'],
 );
 
 GameObject shine = GameObject(
@@ -507,6 +537,41 @@ GameObject mj = GameObject(
   ],
 );
 
+GameObject gasstation = GameObject(
+  id: 'gasstation',
+  name: 'Автозаправка',
+  hidden: false,
+  states: {
+    'seenCosts': false,
+    'seenPumps': false,
+    'seenBuilding': false,
+  },
+  actions: [
+    {
+      'label': 'Осмотреть стойку',
+      'logLabel': 'Осмотреть стойку',
+      'text':
+          'Высокая белая стойка с указанием, какие марки бензина здесь продавались. Электричества, естественно, нет и вместо цен — пустые чёрные окошки. Рядом с колонной — три пыльных, поникших флажка с эмблемой известной компании. Только она могла позволить себе строить и обслуживать вот такие заправки так далеко от городов.',
+      'acts': () => gasstation.states['seenCosts'] = true,
+    },
+    {
+      'label': 'Осмотреть колонки',
+      'logLabel': 'Осмотреть колонки',
+      'text':
+          'Длинный навес, поддерживаемый тремя столбами, тянется от здания до самого шоссе. У каждого столба — по две раздаточные колонки, пыльные и с какими-то табличками на каждой. Мне с такого расстояния не видно, что за таблички. Вся площадка под навесом засыпана песком, наметённым с пустыни.',
+      'acts': () => gasstation.states['seenPumps'] = true,
+    },
+    {
+      'label': 'Осмотреть здание',
+      'logLabel': 'Осмотреть здание',
+      'text':
+          'Одноэтажное белое строение. Наверное, место работы оператора, совмещённое с маленьким супермаркетом, как это обычно бывает. Отсюда убедиться не получится — ни одного окна не видно, а передний фасад полностью закрыт рольставнями. Под ставнями застряла пара перекати-поле.',
+      'acts': () => gasstation.states['seenBuilding'] = true,
+    },
+  ],
+  scenes: ['gas1'],
+);
+
 final objects = [
   ta,
   radio,
@@ -518,4 +583,5 @@ final objects = [
   shine,
   tank,
   mj,
+  gasstation,
 ];
