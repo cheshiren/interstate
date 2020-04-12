@@ -5,7 +5,7 @@ import './models/game_scene.dart';
 import './models/game_object.dart';
 import './story/scenes.dart';
 
-GameScene currentScene = sceneHeyYou;
+GameScene currentScene = locationInsideTA;
 GameObject currentObject = GameObject();
 ScrollController scrollController = ScrollController();
 ItemScrollController itemScrollController = ItemScrollController();
@@ -55,5 +55,15 @@ ThemeData newFriendTheme = ThemeData(
   canvasColor: Color(0xFF919DAA),
   textTheme: customTextTheme.copyWith(
     bodyText1: customTextTheme.bodyText1.copyWith(color: Color(0xFF550000)),
+  ),
+);
+
+ThemeData mjLeafTheme = ThemeData(
+  brightness: Brightness.dark,
+  fontFamily: 'FiraSans',
+  accentColor: Color(0xFFa7c499),
+  canvasColor: Color(0xFF000000),
+  textTheme: customTextTheme.copyWith(
+    bodyText1: customTextTheme.bodyText1.copyWith(color: Color(0xFFa7c499)),
   ),
 );

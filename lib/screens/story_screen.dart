@@ -17,6 +17,9 @@ class StoryScreen extends StatefulWidget {
 }
 
 class _StoryScreenState extends State<StoryScreen> {
+  int _nb = 0;
+  double _pad = 0;
+
   void _addTextSpan(String label, String text, List random) {
     final _newLabelSpan = TextSpan(
       style: currentThemeData.textTheme.headline6,
@@ -28,6 +31,9 @@ class _StoryScreenState extends State<StoryScreen> {
     );
 
     setState(() {
+      // print('$numberOfObjButtons + $numberOfActButtons');
+      _nb = max(numberOfObjButtons, numberOfActButtons);
+      _pad = _nb.toDouble() * 36 + (_nb - 1) * 2 + 20;
       log.add(_newLabelSpan);
       log.add(_newTextSpan);
       log.addAll([...random]);
@@ -98,6 +104,8 @@ class _StoryScreenState extends State<StoryScreen> {
           );
         }
       } else {
+        numberOfObjButtons = 0;
+        numberOfActButtons = 0;
         transition = false;
         return Theme(
           data: _toBeThemeData,
@@ -127,9 +135,7 @@ class _StoryScreenState extends State<StoryScreen> {
         );
       }
     }
-    print('$numberOfObjButtons + $numberOfActButtons');
-    var _nb = max(numberOfObjButtons, numberOfActButtons);
-    var _pad = _nb.toDouble() * 36 + (_nb - 1) * 2 + 20;
+
     return Theme(
       data: currentThemeData,
       child: Scaffold(
@@ -139,7 +145,12 @@ class _StoryScreenState extends State<StoryScreen> {
             constraints: BoxConstraints(
               maxWidth: 800,
             ),
-            padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: (_pad + 40)),
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 0,
+              bottom: _isLargeScreen ? (_pad + 40) : 40,
+            ),
             child: LogView(),
           ),
         ),
